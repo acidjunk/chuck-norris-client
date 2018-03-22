@@ -1,7 +1,7 @@
 (defproject chuck-norris-client "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
+  :license {:name "https://opensource.org/licenses/MIT"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure "1.9.0"]
@@ -17,7 +17,10 @@
                   :scope "provided"]
                  [secretary "1.2.3"]
                  [venantius/accountant "0.2.4"
-                  :exclusions [org.clojure/tools.reader]]]
+                  :exclusions [org.clojure/tools.reader]]
+                 [cljs-ajax "0.7.3"]  ;; todo remove when re-graph works ok
+                 [soda-ash "0.76.0"]
+                 [re-graph "0.1.4"]]
 
   :plugins [[lein-environ "1.1.0"]
             [lein-cljsbuild "1.1.7"]
