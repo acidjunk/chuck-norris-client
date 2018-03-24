@@ -90,7 +90,7 @@
        [:div {:class "content"}
         [:div {:class "summary"} "When Chuck Norris throws exceptions, it's across the room."
          [:div {:class "date"} "1 hour ago"]
-         [:div {:class "meta"} [:a {:class "like"}] [:i {:class "like icon"}] "4 likes"]
+         [:div {:class "meta"} [:a {:class "like"}] [:i {:class "like icon"}] "150 likes"]
          ]
         ]
        ]
@@ -111,7 +111,7 @@
       ]
      ]
 
-   [:div [:h2 {:class "ui inverted header"} "About chuck-norris-client"]
+   [:div [:h2 {:class "ui inverted header"} "About chuck-norris-client wow ow"]
    [:div "Chuck Norris facts are satirical factoids about martial artist and actor Chuck Norris that have become an
           Internet phenomenon and as a result have become widespread in popular culture."]
    [:a {:href "https://en.wikipedia.org/wiki/Chuck_Norris_facts"} "Visit wikipedia"]]])
