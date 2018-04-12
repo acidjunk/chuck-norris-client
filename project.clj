@@ -20,6 +20,7 @@
                   :exclusions [org.clojure/tools.reader]]
                  [cljs-ajax "0.7.3"]  ;; todo remove when re-graph works ok
                  [soda-ash "0.76.0"]
+                 [json-html "0.4.4"]
                  [re-graph "0.1.4"]]
 
   :plugins [[lein-environ "1.1.0"]
@@ -97,7 +98,7 @@
                                   [org.clojure/tools.nrepl "0.2.13"]
                                   [com.cemerick/piggieback "0.2.2"]
                                   [pjstadig/humane-test-output "0.8.3"]
-                                  
+
  ]
 
                    :source-paths ["env/dev/clj"]

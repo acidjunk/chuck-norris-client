@@ -1,16 +1,17 @@
 (ns chuck-norris-client.core
-    (:require [reagent.core :as reagent :refer [atom]]
+    (:require [json-html.core :refer [edn->hiccup]]
+              [reagent.core :as reagent :refer [atom]]
               [secretary.core :as secretary :include-macros true]
               [accountant.core :as accountant]
               [soda-ash.core :as sa]
               [re-graph.core :as re-graph]))
 
-(re-graph/init {:http-url "https://itility-hackatrain-test-team1.azurewebsites.net/graphql" :ws-url nil})
+(re-graph/init {:http-url "https://itility-hackatrain-production-team8.azurewebsites.net/graphql" :ws-url nil})
 
 ;; -------------------------
 ;; State
 (defonce state
-  (reagent/atom {:jokes []
+  (reagent/atom {:jokes {}
                  :search ""
                  :order-prop :name
                  :current-page "Home"   ;; start sensible
@@ -19,42 +20,26 @@
 
 ;; -------------------------
 ;; Data
-(defn on-graph-data [{:keys [data errors] :as payload}]
-  (println data))
-
-;; -------------------------
-(defn menu []
-  [:div {:class "ui large secondary inverted pointing menu"}
-   [:div {:class "ui container"}
-    [:div {:class "active item"} [:a {:href "/about"} "Home"]]
-    [:div {:class "item"} [:a {:href "/about"} "About"]]
-    ]
-   ]
+(defn on-graph-data! [{:keys [data errors] :as payload}]
+  (let [{:keys [jokes]} @state]
+    (swap! state assoc :jokes data)
+   )
   )
 
-
+;; -------------------------
+(defn menu [item]
+  [:div {:class "ui large secondary inverted pointing menu"}
+   [:div {:class "ui container"}
+    [:div {:class (if(= "home" item) "item active" "item")} [:a {:href "/"} "Home"]]
+    [:div {:class (if(= "about" item) "item active" "item")} [:a {:href "/about"} "About"]]]])
 
 ;; -------------------------
 ;; Views
 
-
-;<div class="event">
-;<div class="label">
-;<img src="/images/avatar/small/jenny.jpg">
-;</div>
-;<div class="content">
-;<div class="date">
-;3 days ago
-;</div>
-;<div class="summary">
-;You added <a>Jenny Hess</a> to your <a>coworker</a> group.
-;</div>
-;</div>
-
 (defn home-page []
   [:div
   [:div {:class "ui inverted vertical masthead center aligned segment"}
-   (menu)
+   (menu "home")
    [:div {:class "ui text container"}
     [:h2 {:class "ui inverted header"} "Welcome to the chuck-norris-client"]
     [:p "The best way to consume Chuck"]
@@ -99,17 +84,14 @@
      ]
     ]
    ]
+   [:div {:class "ui segment"} [:div {:class "content"} [edn->hiccup @state]]]
+
 
    ])
 
 (defn about-page []
   [:div {:class "ui inverted vertical masthead center aligned segment"}
-    [:div {:class "ui large secondary inverted pointing menu"}
-     [:div {:class "ui container"}
-      [:div {:class "item"} [:a {:href "/"} "Home"]]
-      [:div {:class "active item"} [:a {:href "/about"} "About"]]
-      ]
-     ]
+    (menu "about")
 
    [:div [:h2 {:class "ui inverted header"} "About chuck-norris-client wow ow"]
    [:div "Chuck Norris facts are satirical factoids about martial artist and actor Chuck Norris that have become an
@@ -149,7 +131,7 @@
 
   (re-graph/query "{ jokes { id, value } }"  ;; your graphql query
                   {:some "variable"}  ;; arguments map
-                  on-graph-data)           ;; callback event when response is recieved
+                  on-graph-data!)           ;; callback event when response is recieved
 
 
   (mount-root))
